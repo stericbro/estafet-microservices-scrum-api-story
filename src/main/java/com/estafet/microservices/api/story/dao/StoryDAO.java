@@ -34,11 +34,11 @@ public class StoryDAO {
 		if (sprintId != null) {
 			TypedQuery<Story> query = entityManager.createQuery("Select s from Story s where s.projectId = :projectId and s.sprintId = :sprintId", Story.class);
 			query.setParameter("projectId", projectId);
-			query.setParameter("sprintId", sprintId); 
+			query.setParameter("sprintId", sprintId);
 			return query.getResultList();
 		} else {
 			TypedQuery<Story> query = entityManager.createQuery("Select s from Story s where s.projectId = :projectId", Story.class);
-			query.setParameter("projectId", projectId); 
+			query.setParameter("projectId", projectId);
 			return query.getResultList();
 		}
 	}

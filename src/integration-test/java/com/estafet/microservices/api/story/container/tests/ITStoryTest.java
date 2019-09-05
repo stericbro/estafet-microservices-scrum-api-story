@@ -73,7 +73,7 @@ public class ITStoryTest {
 	@Test
 	@DatabaseSetup("ITStoryTest-data.xml")
 	public void testCreateStory() {
-		String body = 
+		String body =
 		given()
 			.contentType(ContentType.JSON)
 			.body("{\"title\":\"My Story\",\"description\":\"My Story\",\"storypoints\":5}")
