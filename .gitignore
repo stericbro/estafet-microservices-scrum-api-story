@@ -1,4 +1,7 @@
-/target/
-/src/main/java/META-INF
-/release-pipeline.groovy.bak
+target/
+.settings/
+.project
+.classpath
+src/main/java/META-INF
+*.bak
 /createdb.sh
