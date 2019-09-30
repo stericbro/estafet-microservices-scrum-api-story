@@ -27,151 +27,151 @@ import io.restassured.http.ContentType;
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class })
 public class ITStoryTest {
 
-	NewStoryTopicConsumer newStoryTopicConsumer;
-	UpdatedStoryTopicConsumer updatedStoryTopicConsumer;
+    NewStoryTopicConsumer newStoryTopicConsumer;
+    UpdatedStoryTopicConsumer updatedStoryTopicConsumer;
 
-	@Before
-	public void before() {
-		RestAssured.baseURI = System.getenv("STORY_API_SERVICE_URI");
-		newStoryTopicConsumer = new NewStoryTopicConsumer();
-		updatedStoryTopicConsumer = new UpdatedStoryTopicConsumer();
-	}
+    @Before
+    public void before() {
+        RestAssured.baseURI = System.getenv("STORY_API_SERVICE_URI");
+        newStoryTopicConsumer = new NewStoryTopicConsumer();
+        updatedStoryTopicConsumer = new UpdatedStoryTopicConsumer();
+    }
 
-	@After
-	public void after() {
-		newStoryTopicConsumer.closeConnection();
-		updatedStoryTopicConsumer.closeConnection();
-	}
+    @After
+    public void after() {
+        newStoryTopicConsumer.closeConnection();
+        updatedStoryTopicConsumer.closeConnection();
+    }
 
-	@Test
-	public void testGetAPI() {
-		get("/api").then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(1))
-			.body("title", is("my story"))
-			.body("description", is("my story description"))
-			.body("storypoints", is(13))
-			.body("sprintId", is(1))
-			.body("projectId", is(1))
-			.body("criteria.id", hasItems(1))
-			.body("criteria.description", hasItems("my criterion"));
-	}
+    @Test
+    public void testGetAPI() {
+        get("/api").then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", is(1))
+            .body("title", is("my story"))
+            .body("description", is("my story description"))
+            .body("storypoints", is(13))
+            .body("sprintId", is(1))
+            .body("projectId", is(1))
+            .body("criteria.id", hasItems(1))
+            .body("criteria.description", hasItems("my criterion"));
+    }
 
-	@Test
-	@DatabaseSetup("ITStoryTest-data.xml")
-	public void testGetStory() {
-		get("/story/1000").then()
-		.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(1000))
-			.body("title", is("Story #1"))
-			.body("description", is("Story #1"))
-			.body("storypoints", is(13))
-			.body("projectId", is(1))
-			.body("status", is("Not Started"));
-	}
+    @Test
+    @DatabaseSetup("ITStoryTest-data.xml")
+    public void testGetStory() {
+        get("/story/1000").then()
+        .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", is(1000))
+            .body("title", is("Story #1"))
+            .body("description", is("Story #1"))
+            .body("storypoints", is(13))
+            .body("projectId", is(1))
+            .body("status", is("Not Started"));
+    }
 
-	@Test
-	@DatabaseSetup("ITStoryTest-data.xml")
-	public void testCreateStory() {
-		String body =
-		given()
-			.contentType(ContentType.JSON)
-			.body("{\"title\":\"My Story\",\"description\":\"My Story\",\"storypoints\":5}")
-		.when()
-			.post("/project/1/story")
-		.then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("title", is("My Story"))
-			.body("description", is("My Story"))
-			.body("storypoints", is(5))
-			.body("projectId", is(1))
-			.body("status", is("Not Started"))
-			.extract().body().asString();
+    @Test
+    @DatabaseSetup("ITStoryTest-data.xml")
+    public void testCreateStory() {
+        String body =
+        given()
+            .contentType(ContentType.JSON)
+            .body("{\"title\":\"My Story\",\"description\":\"My Story\",\"storypoints\":5}")
+        .when()
+            .post("/project/1/story")
+        .then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("title", is("My Story"))
+            .body("description", is("My Story"))
+            .body("storypoints", is(5))
+            .body("projectId", is(1))
+            .body("status", is("Not Started"))
+            .extract().body().asString();
 
-		Story newStory = Story.fromJSON(body);
+        Story newStory = Story.fromJSON(body);
 
-		get("/story/" + newStory.getId()).then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(newStory.getId()))
-			.body("title", is("My Story"))
-			.body("description", is("My Story"))
-			.body("storypoints", is(5))
-			.body("projectId", is(1))
-			.body("status", is("Not Started"));
+        get("/story/" + newStory.getId()).then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", is(newStory.getId()))
+            .body("title", is("My Story"))
+            .body("description", is("My Story"))
+            .body("storypoints", is(5))
+            .body("projectId", is(1))
+            .body("status", is("Not Started"));
 
-		Story story = newStoryTopicConsumer.consume(Story.class);
-		assertThat(story.getId(), is(newStory.getId()));
-		assertThat(story.getTitle(), is("My Story"));
-		assertThat(story.getDescription(), is("My Story"));
-	}
+        Story story = newStoryTopicConsumer.consume(Story.class);
+        assertThat(story.getId(), is(newStory.getId()));
+        assertThat(story.getTitle(), is("My Story"));
+        assertThat(story.getDescription(), is("My Story"));
+    }
 
-	@Test
-	@DatabaseSetup("ITStoryTest-data.xml")
-	public void testGetStories() {
-		get("/project/1/stories").then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", hasItems(1000))
-			.body("title", hasItems("Story #1"))
-			.body("description", hasItems("Story #1"))
-			.body("status", hasItems("Not Started"));
-	}
+    @Test
+    @DatabaseSetup("ITStoryTest-data.xml")
+    public void testGetStories() {
+        get("/project/1/stories").then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", hasItems(1000))
+            .body("title", hasItems("Story #1"))
+            .body("description", hasItems("Story #1"))
+            .body("status", hasItems("Not Started"));
+    }
 
-	@Test
-	@DatabaseSetup("ITStoryTest-data.xml")
-	public void testAddAcceptanceCriteria() {
-		given()
-			.contentType(ContentType.JSON)
-			.body("{\"criteria\":\"Criteria #10\"}")
-		.when()
-			.post("/story/1000/criteria")
-		.then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(1000))
-			.body("title", is("Story #1"))
-			.body("description", is("Story #1"))
-			.body("status", is("Not Started"))
-			.body("criteria.description", hasItems("Criteria #10"));
+    @Test
+    @DatabaseSetup("ITStoryTest-data.xml")
+    public void testAddAcceptanceCriteria() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{\"criteria\":\"Criteria #10\"}")
+        .when()
+            .post("/story/1000/criteria")
+        .then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", is(1000))
+            .body("title", is("Story #1"))
+            .body("description", is("Story #1"))
+            .body("status", is("Not Started"))
+            .body("criteria.description", hasItems("Criteria #10"));
 
-		get("/story/1000").then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(1000))
-			.body("title", is("Story #1"))
-			.body("description", is("Story #1"))
-			.body("status", is("Not Started"))
-			.body("criteria.description", hasItems("Criteria #10"));
+        get("/story/1000").then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", is(1000))
+            .body("title", is("Story #1"))
+            .body("description", is("Story #1"))
+            .body("status", is("Not Started"))
+            .body("criteria.description", hasItems("Criteria #10"));
 
-		Story story = updatedStoryTopicConsumer.consume(Story.class);
-		assertThat(story.getId(), is(1000));
-		assertThat(story.getTitle(), is("Story #1"));
-		assertThat(story.getStatus(), is("Not Started"));
-	}
+        Story story = updatedStoryTopicConsumer.consume(Story.class);
+        assertThat(story.getId(), is(1000));
+        assertThat(story.getTitle(), is("Story #1"));
+        assertThat(story.getStatus(), is("Not Started"));
+    }
 
-	@Test
-	@DatabaseSetup("ITStoryTest-data.xml")
-	public void testAddSprintStory() {
-		given()
-			.contentType(ContentType.JSON)
-			.body("{\"storyId\":1000,\"sprintId\":1}")
-		.when()
-			.post("/add-story-to-sprint")
-		.then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(1000))
-			.body("title", is("Story #1"))
-			.body("description", is("Story #1"))
-			.body("status", is("In Progress"));
+    @Test
+    @DatabaseSetup("ITStoryTest-data.xml")
+    public void testAddSprintStory() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{\"storyId\":1000,\"sprintId\":1}")
+        .when()
+            .post("/add-story-to-sprint")
+        .then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", is(1000))
+            .body("title", is("Story #1"))
+            .body("description", is("Story #1"))
+            .body("status", is("In Progress"));
 
-		get("/story/1000").then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(1000))
-			.body("title", is("Story #1"))
-			.body("description", is("Story #1"))
-			.body("status", is("In Progress"));
+        get("/story/1000").then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", is(1000))
+            .body("title", is("Story #1"))
+            .body("description", is("Story #1"))
+            .body("status", is("In Progress"));
 
-		Story story = updatedStoryTopicConsumer.consume(Story.class);
-		assertThat(story.getId(), is(1000));
-		assertThat(story.getTitle(), is("Story #1"));
-		assertThat(story.getStatus(), is("In Progress"));
-	}
+        Story story = updatedStoryTopicConsumer.consume(Story.class);
+        assertThat(story.getId(), is(1000));
+        assertThat(story.getTitle(), is("Story #1"));
+        assertThat(story.getStatus(), is("In Progress"));
+    }
 
 }

@@ -15,17 +15,17 @@ import com.estafet.microservices.api.story.model.Story;
 @Component
 public class UpdateStoryProducer {
 
-	@Autowired
-	private JmsTemplate jmsTemplate;
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
-	public void sendMessage(Story story) {
-		jmsTemplate.setPubSubDomain(true);
-		jmsTemplate.convertAndSend("update.story.topic", story.toJSON(), new MessagePostProcessor() {
-			@Override
-			public Message postProcessMessage(Message message) throws JMSException {
-				message.setStringProperty("message.event.interaction.reference", UUID.randomUUID().toString());
-				return message;
-			}
-		});
-	}
+    public void sendMessage(Story story) {
+        jmsTemplate.setPubSubDomain(true);
+        jmsTemplate.convertAndSend("update.story.topic", story.toJSON(), new MessagePostProcessor() {
+            @Override
+            public Message postProcessMessage(Message message) throws JMSException {
+                message.setStringProperty("message.event.interaction.reference", UUID.randomUUID().toString());
+                return message;
+            }
+        });
+    }
 }

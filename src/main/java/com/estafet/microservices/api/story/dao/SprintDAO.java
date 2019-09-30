@@ -12,22 +12,22 @@ import com.estafet.microservices.api.story.model.Sprint;
 @Repository
 public class SprintDAO {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	public List<Sprint> getProjectSprints(Integer projectId) {
-		return entityManager.createQuery("select s from Sprint s where s.projectId = " + projectId, Sprint.class)
-				.getResultList();
-	}
+    public List<Sprint> getProjectSprints(Integer projectId) {
+        return entityManager.createQuery("select s from Sprint s where s.projectId = " + projectId, Sprint.class)
+                .getResultList();
+    }
 
-	public Sprint createSprint(Sprint sprint) {
-		entityManager.persist(sprint);
-		return sprint;
-	}
+    public Sprint createSprint(Sprint sprint) {
+        entityManager.persist(sprint);
+        return sprint;
+    }
 
-	public Sprint updateSprint(Sprint sprint) {
-		entityManager.merge(sprint);
-		return sprint;
-	}
+    public Sprint updateSprint(Sprint sprint) {
+        entityManager.merge(sprint);
+        return sprint;
+    }
 
 }

@@ -58,9 +58,9 @@ To add a new story to the backlog of a project. It returns a story object.
 ```
 POST http://story-api/project/1/story
 {
-	"title" : "my 21st story",
-	"description" : "this is my 21st story",
-	"storypoints" : "13"
+    "title" : "my 21st story",
+    "description" : "this is my 21st story",
+    "storypoints" : "13"
 }
 ```
 
@@ -69,7 +69,7 @@ To add a new acceptance criteria to a story. It returns a story object.
 ```
 POST http://story-api/story/1/criteria
 {
-	"description": "hghghg"
+    "description": "hghghg"
 }
 ```
 
@@ -84,8 +84,8 @@ To add a story to a sprint. Returns the story object.
 ```
 POST http://story-api/add-story-to-sprint
 {
-	"storyId" : "1",
-	"sprintId" : "2"
+    "storyId" : "1",
+    "sprintId" : "2"
 }
 ```
 

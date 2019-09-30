@@ -5,34 +5,34 @@ import java.util.List;
 
 public class StoryDetails {
 
-	private Integer storyId;
+    private Integer storyId;
 
-	private String title;
+    private String title;
 
-	private String description;
+    private String description;
 
-	private Integer storypoints;
+    private Integer storypoints;
 
-	private List<String> criteria = new ArrayList<String>();
+    private List<String> criteria = new ArrayList<String>();
 
-	public Integer getStoryId() {
-		return storyId;
-	}
+    public Integer getStoryId() {
+        return storyId;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public Integer getStorypoints() {
-		return storypoints;
-	}
+    public Integer getStorypoints() {
+        return storypoints;
+    }
 
-	public List<String> getCriteria() {
-		return criteria;
-	}
+    public List<String> getCriteria() {
+        return criteria;
+    }
 
 }

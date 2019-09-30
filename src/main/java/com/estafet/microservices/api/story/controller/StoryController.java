@@ -20,38 +20,38 @@ import com.estafet.microservices.api.story.service.StoryService;
 @RestController
 public class StoryController {
 
-	@Autowired
-	private StoryService storyService;
+    @Autowired
+    private StoryService storyService;
 
-	@GetMapping("/api")
-	public Story getAPI() {
-		return Story.getAPI();
-	}
+    @GetMapping("/api")
+    public Story getAPI() {
+        return Story.getAPI();
+    }
 
-	@GetMapping("/story/{id}")
-	public Story getStory(@PathVariable int id) {
-		return storyService.getStory(id);
-	}
+    @GetMapping("/story/{id}")
+    public Story getStory(@PathVariable int id) {
+        return storyService.getStory(id);
+    }
 
-	@PostMapping("/project/{id}/story")
-	public ResponseEntity createStory(@PathVariable int id, @RequestBody StoryDetails message) {
-		return new ResponseEntity(storyService.createStory(id, message), HttpStatus.OK);
-	}
+    @PostMapping("/project/{id}/story")
+    public ResponseEntity createStory(@PathVariable int id, @RequestBody StoryDetails message) {
+        return new ResponseEntity(storyService.createStory(id, message), HttpStatus.OK);
+    }
 
-	@GetMapping("/project/{id}/stories")
-	public ResponseEntity getStories(@PathVariable int id,
-			@RequestParam(value = "sprintId", required = false) Integer sprintId) {
-		return new ResponseEntity(storyService.getStories(id, sprintId), HttpStatus.OK);
-	}
+    @GetMapping("/project/{id}/stories")
+    public ResponseEntity getStories(@PathVariable int id,
+            @RequestParam(value = "sprintId", required = false) Integer sprintId) {
+        return new ResponseEntity(storyService.getStories(id, sprintId), HttpStatus.OK);
+    }
 
-	@PostMapping("/story/{id}/criteria")
-	public ResponseEntity addAcceptanceCriteria(@PathVariable int id, @RequestBody AcceptanceCriteriaDetails message) {
-		return new ResponseEntity(storyService.addAcceptanceCriteria(id, message), HttpStatus.OK);
-	}
+    @PostMapping("/story/{id}/criteria")
+    public ResponseEntity addAcceptanceCriteria(@PathVariable int id, @RequestBody AcceptanceCriteriaDetails message) {
+        return new ResponseEntity(storyService.addAcceptanceCriteria(id, message), HttpStatus.OK);
+    }
 
-	@PostMapping("/add-story-to-sprint")
-	public ResponseEntity addSprintStory(@RequestBody AddSprintStory message) {
-		return new ResponseEntity(storyService.addSprintStory(message), HttpStatus.OK);
-	}
+    @PostMapping("/add-story-to-sprint")
+    public ResponseEntity addSprintStory(@RequestBody AddSprintStory message) {
+        return new ResponseEntity(storyService.addSprintStory(message), HttpStatus.OK);
+    }
 
 }

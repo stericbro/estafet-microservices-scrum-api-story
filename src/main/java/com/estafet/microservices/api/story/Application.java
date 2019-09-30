@@ -31,35 +31,35 @@ import io.opentracing.contrib.jms.spring.TracingJmsTemplate;
 //@EnableDiscoveryClient
 public class Application extends SpringBootServletInitializer {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
-	@Bean
-	public io.opentracing.Tracer jaegerTracer() {
-		return new com.uber.jaeger.Configuration("story-api",
-				com.uber.jaeger.Configuration.SamplerConfiguration.fromEnv(),
-				com.uber.jaeger.Configuration.ReporterConfiguration.fromEnv()).getTracer();
-	}
+    @Bean
+    public io.opentracing.Tracer jaegerTracer() {
+        return new com.uber.jaeger.Configuration("story-api",
+                com.uber.jaeger.Configuration.SamplerConfiguration.fromEnv(),
+                com.uber.jaeger.Configuration.ReporterConfiguration.fromEnv()).getTracer();
+    }
 
-	@Bean
-	public MessageConverter tracingJmsMessageConverter(Tracer tracer) {
-		return new PropagatingTracingMessageConverter(new SimpleMessageConverter(), tracer);
-	}
+    @Bean
+    public MessageConverter tracingJmsMessageConverter(Tracer tracer) {
+        return new PropagatingTracingMessageConverter(new SimpleMessageConverter(), tracer);
+    }
 
-	@Bean
-	public JmsTemplate jmsTemplate(ConnectionFactory connectionFactory, Tracer tracer) {
-		JmsTemplate jmsTemplate = new TracingJmsTemplate(connectionFactory, tracer);
-		jmsTemplate.setMessageConverter(new SimpleMessageConverter());
-		return jmsTemplate;
-	}
+    @Bean
+    public JmsTemplate jmsTemplate(ConnectionFactory connectionFactory, Tracer tracer) {
+        JmsTemplate jmsTemplate = new TracingJmsTemplate(connectionFactory, tracer);
+        jmsTemplate.setMessageConverter(new SimpleMessageConverter());
+        return jmsTemplate;
+    }
 
-	@Bean
-	public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
-			DefaultJmsListenerContainerFactoryConfigurer configurer) {
-		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-		configurer.configure(factory, connectionFactory);
-		return factory;
-	}
+    @Bean
+    public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
+            DefaultJmsListenerContainerFactoryConfigurer configurer) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        configurer.configure(factory, connectionFactory);
+        return factory;
+    }
 
 }
