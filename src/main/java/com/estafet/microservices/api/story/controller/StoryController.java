@@ -27,12 +27,12 @@ public class StoryController {
 	public Story getAPI() {
 		return Story.getAPI();
 	}
-	
+
 	@GetMapping("/story/{id}")
 	public Story getStory(@PathVariable int id) {
 		return storyService.getStory(id);
 	}
-	
+
 	@PostMapping("/project/{id}/story")
 	public ResponseEntity createStory(@PathVariable int id, @RequestBody StoryDetails message) {
 		return new ResponseEntity(storyService.createStory(id, message), HttpStatus.OK);

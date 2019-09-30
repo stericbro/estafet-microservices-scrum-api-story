@@ -89,5 +89,5 @@ public class SimpleStory {
 		}
 		return simpleStories;
 	}
-	
+
 }

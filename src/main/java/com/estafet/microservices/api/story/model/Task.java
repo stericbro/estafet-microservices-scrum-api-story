@@ -97,7 +97,7 @@ public class Task {
 			return false;
 		return true;
 	}
-	
+
 	public static Task fromJSON(String message) {
 		try {
 			return new ObjectMapper().readValue(message, Task.class);

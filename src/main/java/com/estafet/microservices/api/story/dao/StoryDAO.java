@@ -19,17 +19,17 @@ public class StoryDAO {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Autowired
 	private NewStoryProducer newStoryProducer;
-	
+
 	@Autowired
 	private UpdateStoryProducer updateStoryProducer;
 
 	public List<Story> getStories(Integer projectId) {
 		return getStories(projectId, null);
 	}
-	
+
 	public List<Story> getStories(Integer projectId, Integer sprintId) {
 		if (sprintId != null) {
 			TypedQuery<Story> query = entityManager.createQuery("Select s from Story s where s.projectId = :projectId and s.sprintId = :sprintId", Story.class);
@@ -42,7 +42,7 @@ public class StoryDAO {
 			return query.getResultList();
 		}
 	}
-	
+
 	public Task getTask(int taskId) {
 		return entityManager.find(Task.class, new Integer(taskId));
 	}

@@ -2,21 +2,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>microservices-scrum-story-api</artifactId>
 	<version>0.0.16-SNAPSHOT</version>
-	
+
 	<parent>
 		<groupId>com.estafet.microservices.scrum</groupId>
 		<artifactId>microservices-scrum-parent-db</artifactId>
 		<version>1.0.4</version>
 		<relativePath />
 	</parent>
-	
+
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<microservice>story-api</microservice>
 		<entity.package>com.estafet.microservices.api.story.model</entity.package>
-	</properties>	
-	
+	</properties>
+
 	<profiles>
 		<profile>
 			<id>releases</id>
@@ -52,8 +52,8 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>		
-	</profiles>	
+		</profile>
+	</profiles>
 
 	<distributionManagement>
 		<snapshotRepository>
@@ -71,5 +71,5 @@
 		<developerConnection>scm:git:https://github.com/stericbro/estafet-microservices-scrum-api-story.git</developerConnection>
 	  <tag>HEAD</tag>
   </scm>
-	
+
 </project>

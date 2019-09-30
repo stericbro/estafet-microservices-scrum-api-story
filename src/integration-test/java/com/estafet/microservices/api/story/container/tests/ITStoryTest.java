@@ -29,7 +29,7 @@ public class ITStoryTest {
 
 	NewStoryTopicConsumer newStoryTopicConsumer;
 	UpdatedStoryTopicConsumer updatedStoryTopicConsumer;
-	
+
 	@Before
 	public void before() {
 		RestAssured.baseURI = System.getenv("STORY_API_SERVICE_URI");
@@ -87,9 +87,9 @@ public class ITStoryTest {
 			.body("projectId", is(1))
 			.body("status", is("Not Started"))
 			.extract().body().asString();
-	
+
 		Story newStory = Story.fromJSON(body);
-		
+
 		get("/story/" + newStory.getId()).then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(newStory.getId()))
@@ -98,7 +98,7 @@ public class ITStoryTest {
 			.body("storypoints", is(5))
 			.body("projectId", is(1))
 			.body("status", is("Not Started"));
-		
+
 		Story story = newStoryTopicConsumer.consume(Story.class);
 		assertThat(story.getId(), is(newStory.getId()));
 		assertThat(story.getTitle(), is("My Story"));
@@ -131,7 +131,7 @@ public class ITStoryTest {
 			.body("description", is("Story #1"))
 			.body("status", is("Not Started"))
 			.body("criteria.description", hasItems("Criteria #10"));
-	
+
 		get("/story/1000").then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(1000))
@@ -139,7 +139,7 @@ public class ITStoryTest {
 			.body("description", is("Story #1"))
 			.body("status", is("Not Started"))
 			.body("criteria.description", hasItems("Criteria #10"));
-		
+
 		Story story = updatedStoryTopicConsumer.consume(Story.class);
 		assertThat(story.getId(), is(1000));
 		assertThat(story.getTitle(), is("Story #1"));
@@ -160,14 +160,14 @@ public class ITStoryTest {
 			.body("title", is("Story #1"))
 			.body("description", is("Story #1"))
 			.body("status", is("In Progress"));
-	
+
 		get("/story/1000").then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(1000))
 			.body("title", is("Story #1"))
 			.body("description", is("Story #1"))
 			.body("status", is("In Progress"));
-		
+
 		Story story = updatedStoryTopicConsumer.consume(Story.class);
 		assertThat(story.getId(), is(1000));
 		assertThat(story.getTitle(), is("Story #1"));

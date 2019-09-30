@@ -37,5 +37,5 @@ public class Sprint {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 }

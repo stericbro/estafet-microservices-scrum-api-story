@@ -15,13 +15,13 @@ import io.opentracing.Tracer;
 public class UpdateSprintConsumer {
 
 	public final static String TOPIC = "update.sprint.topic";
-	
+
 	@Autowired
 	private Tracer tracer;
-	
+
 	@Autowired
 	private StoryService storyService;
-	
+
 	@Autowired
 	private MessageEventHandler messageEventHandler;
 
@@ -29,11 +29,11 @@ public class UpdateSprintConsumer {
 	public void onMessage(String message, @Header("message.event.interaction.reference") String reference) {
 		try {
 			if (messageEventHandler.isValid(TOPIC, reference)) {
-				storyService.updateSprint(Sprint.fromJSON(message));	
+				storyService.updateSprint(Sprint.fromJSON(message));
 			}
 		} finally {
 			if (tracer.activeSpan() != null) {
-				tracer.activeSpan().close();	
+				tracer.activeSpan().close();
 			}
 		}
 	}

@@ -17,7 +17,7 @@ public class UpdateStoryProducer {
 
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	
+
 	public void sendMessage(Story story) {
 		jmsTemplate.setPubSubDomain(true);
 		jmsTemplate.convertAndSend("update.story.topic", story.toJSON(), new MessagePostProcessor() {

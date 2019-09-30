@@ -200,7 +200,7 @@ public class Story {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static Story getAPI() {
 		Story story = new Story();
 		story.id = 1;

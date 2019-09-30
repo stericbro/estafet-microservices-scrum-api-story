@@ -23,7 +23,7 @@ public class StoryService {
 
 	@Autowired
 	private StoryDAO storyDAO;
-	
+
 	@Autowired
 	private SprintDAO sprintDAO;
 

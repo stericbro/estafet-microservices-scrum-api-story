@@ -19,7 +19,7 @@ public class SprintDAO {
 		return entityManager.createQuery("select s from Sprint s where s.projectId = " + projectId, Sprint.class)
 				.getResultList();
 	}
-	
+
 	public Sprint createSprint(Sprint sprint) {
 		entityManager.persist(sprint);
 		return sprint;

@@ -2,7 +2,7 @@ node('maven') {
 
 	def project = "dev"
 	def microservice = "story-api"
-	
+
 	currentBuild.description = "Build a container from the source, then execute unit and container integration tests before promoting the container as a release candidate for acceptance testing."
 
 	stage("checkout") {
@@ -46,13 +46,13 @@ node('maven') {
     		}
     	}
 	}
-	
+
 	stage("deploy snapshots") {
 		withMaven(mavenSettingsConfig: 'microservices-scrum') {
  			sh "mvn clean deploy -Dmaven.test.skip=true"
 		}
-	}	
-	
+	}
+
 	stage("promote to test") {
 		openshiftTag namespace: project, srcStream: microservice, srcTag: 'latest', destinationNamespace: 'test', destinationStream: microservice, destinationTag: 'PrepareForTesting'
 	}
